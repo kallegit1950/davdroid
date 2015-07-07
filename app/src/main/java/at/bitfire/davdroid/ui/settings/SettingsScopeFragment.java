@@ -49,9 +49,25 @@ public class SettingsScopeFragment extends ListFragment {
 	}
 
 	@Override
+	public void onResume(){
+		super.onResume();
+
+		/*
+		* 		In case of a tablet: Dispaly always first account details by default
+		* 		In case of phone: If there is only one account then skip selection list
+		* */
+
+		if(((SettingsActivity)getActivity()).isTabletLayout() || (accounts.length == 1))
+		{
+			((SettingsActivity) getActivity()).showAccountSettings(accounts[0], 1);
+		}
+
+	}
+
+	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		l.clearChoices();
-		((SettingsActivity)getActivity()).showAccountSettings(accounts[position]);
+		((SettingsActivity)getActivity()).showAccountSettings(accounts[position], accounts.length);
 		l.setItemChecked(position, true);
 	}
 }

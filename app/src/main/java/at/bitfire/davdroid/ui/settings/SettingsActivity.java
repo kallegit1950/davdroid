@@ -19,7 +19,7 @@ import at.bitfire.davdroid.R;
 public class SettingsActivity extends Activity {
 	private final static String KEY_SELECTED_ACCOUNT = "selected_account";
 
-	boolean tabletLayout;
+	private boolean tabletLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class SettingsActivity extends Activity {
 		}
 	}
 
-	void showAccountSettings(Account account) {
+	void showAccountSettings(Account account, int accountSize) {
 		if (tabletLayout) {
 			AccountFragment fragment = new AccountFragment();
 
@@ -50,6 +50,14 @@ public class SettingsActivity extends Activity {
 			Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
 			intent.putExtra(AccountActivity.EXTRA_ACCOUNT, account);
 			startActivity(intent);
+			if(accountSize == 1) {
+				finish();			//if there is only one account the list is not needed, avoid endless loop in auto dispaly the only account
+			}
 		}
+	}
+
+	public boolean isTabletLayout()
+	{
+		return tabletLayout;
 	}
 }
